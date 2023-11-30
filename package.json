@@ -1,8 +1,8 @@
 {
-  "name": "template-backend",
+  "name": "desafio4-backend",
   "version": "1.0.0",
   "author": "EngNet",
-  "description": "Repositório template para os Backends dos nossos projetos.",
+  "description": "Repositório do desafio 4 do processo trainee.",
   "scripts": {
     "dev": "nodemon --exec ts-node src/base/index.ts --watch src",
     "dev:no-watch": "ts-node src/base/index.ts",
