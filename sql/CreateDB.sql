@@ -1,0 +1,33 @@
+CREATE DATABASE IF NOT EXISTS detranDB;
+
+use detranDB;
+
+CREATE TABLE MOTORISTA(
+    cpf NUMERIC(11) NOT NULL,
+    vencimentoCnh DATE NOT NULL,
+    nome VARCHAR(60) NOT NULL,
+    categoriaCnh ENUM('A', 'B', 'AB') NOT NULL, 
+    CONSTRAINT cpf_pk PRIMARY KEY (cpf)
+) ENGINE = InnoDB;
+
+CREATE TABLE VEICULO(
+    placa VARCHAR(7) NOT NULL,
+    marca VARCHAR(50) NOT NULL,
+    ano NUMERIC(4) NOT NULL,
+    cor VARCHAR(50) NOT NULL,
+    modelo VARCHAR(50) NOT NULL,
+    cpf NUMERIC(11) NOT NULL,
+    CONSTRAINT placa_pk PRIMARY KEY (placa),
+    CONSTRAINT cpf_pk FOREIGN KEY (cpf) REFERENCES MOTORISTA (cpf)
+) ENGINE = InnoDB;
+
+CREATE TABLE MULTA(
+    idMulta INT NOT NULL AUTO_INCREMENT,
+    valor DECIMAL(6,2) NOT NULL,
+    dataInfracao DATE NOT NULL,
+    pontosPenalidade NUMERIC(1) NOT NULL,
+    tipoInfacao VARCHAR(50) NOT NULL,
+    placa VARCHAR(7) NOT NULL,
+    CONSTRAINT idMulta_pk PRIMARY KEY (idMulta),
+    CONSTRAINT placa_pk FOREIGN KEY (placa) REFERENCES VEICULO (placa)
+) ENGINE = InnoDB AUTO_INCREMENT=1;
