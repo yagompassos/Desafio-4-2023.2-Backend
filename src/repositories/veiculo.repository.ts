@@ -7,6 +7,14 @@ export async function FindVeiculoByPlaca(placa: string) {
     { placa },
   );
 
+  return VeiculoSchema.array().parse(result);
+}
+
+export async function FindVeiculosByCpf(cpf: string) {
+  const result = await mysqlConn.query("SELECT placa, marca, ano, cor, modelo FROM VEICULO WHERE cpf = ?", {
+    cpf,
+  });
+
   return VeiculoSchema.parse(result[0]);
 }
 
