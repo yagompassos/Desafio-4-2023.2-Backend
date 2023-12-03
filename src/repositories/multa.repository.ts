@@ -1,5 +1,5 @@
 import { mysqlConn } from "../base/mysql";
-import { type Multa, MultaSchema, MultaCreateSchema } from "../schemas/multa.schema";
+import { type Multa, MultaSchema, MultaCreateSchema, RetidosSchema } from "../schemas/multa.schema";
 
 export async function findMultaById(idMulta: number) {
   const result = await mysqlConn.query(
@@ -17,6 +17,14 @@ export async function FindMultasByCpf(cpf: string) {
   );
 
   return MultaSchema.array().parse(result);
+}
+
+export async function FindRetidos() {
+  const result = await mysqlConn.query(
+    "SELECT MOTORISTA.nome, SUM(MULTA.pontosPenalidade) AS totalPontos FROM MOTORISTA JOIN VEICULO ON MOTORISTA.cpf = VEICULO.cpf JOIN MULTA ON VEICULO.placa = MULTA.placa GROUP BY MOTORISTA.nome HAVING totalPontos >= 10;",
+  );
+
+  return RetidosSchema.array().parse(result);
 }
 
 export async function createMulta(
