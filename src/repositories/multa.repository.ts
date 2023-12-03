@@ -1,13 +1,22 @@
 import { mysqlConn } from "../base/mysql";
-import { type Multa, MultaSquema } from "../schemas/multa.schema";
+import { type Multa, MultaSchema, MultaCreateSchema } from "../schemas/multa.schema";
 
 export async function findMultaById(idMulta: number) {
   const result = await mysqlConn.query(
     "SELECT valor, dataInfracao, pontosPenalidade, tipoInfracao, placa FROM MULTA WHERE idMulta = ?",
-    { idMulta },
+    idMulta,
   );
 
-  return MultaSquema.parse(result[0]);
+  return MultaSchema.parse(result[0]);
+}
+
+export async function FindMultasByCpf(cpf: string) {
+  const result = await mysqlConn.query(
+    "SELECT MULTA.valor, MULTA.dataInfracao, MULTA.pontosPenalidade, MULTA.tipoInfacao FROM MOTORISTA JOIN VEICULO ON MOTORISTA.cpf = VEICULO.cpf JOIN MULTA ON VEICULO.placa = MULTA.placa WHERE MOTORISTA.cpf = ?",
+    cpf,
+  );
+
+  return MultaSchema.array().parse(result);
 }
 
 export async function createMulta(
@@ -29,5 +38,5 @@ export async function createMulta(
 
   if (selectedResult === null) throw new Error("Erro ao criar Multa");
 
-  return MultaSquema.parse(selectedResult);
+  return MultaCreateSchema.parse(selectedResult);
 }

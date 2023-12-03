@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { VeiculoCreateSchema, VeiculoSchema } from "../schemas/veiculo.schema";
+import { VeiculoCreateSchema } from "../schemas/veiculo.schema";
 import { FindVeiculosByCpf, createVeiculo } from "../repositories/veiculo.repository";
 
 const router = Router();
